@@ -24,6 +24,9 @@ namespace Assignment.Contexts
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
+            modelBuilder.Entity<Department>()
+                .HasMany(X => X.Instructors)
+                .WithOne(X => X.Department);
           
             base.OnModelCreating(modelBuilder);
         }
