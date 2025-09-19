@@ -10,7 +10,7 @@ namespace Demo.Models
     {
         public int Id { get; set; } 
         public string Name { get; set; }
-        public ICollection<Product> Products { get; set; } //FK by convention will create           (1 : M) Relationship
+        public virtual ICollection<Product> Products { get; set; } //FK by convention will create           (1 : M) Relationship
                                                            //CategoryId column in the products table
                                                            //Naming comes from the Class name and
                                                            //putting ID in the last of it

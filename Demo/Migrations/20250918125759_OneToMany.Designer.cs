@@ -4,6 +4,7 @@ using Demo.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Demo.Migrations
 {
     [DbContext(typeof(CompanyDbContext))]
-    partial class CompanyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250918125759_OneToMany")]
+    partial class OneToMany
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,7 +39,7 @@ namespace Demo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Demo.Models.Course", b =>
@@ -53,7 +56,7 @@ namespace Demo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Courses", (string)null);
+                    b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("Demo.Models.Department", b =>
@@ -79,27 +82,7 @@ namespace Demo.Migrations
 
                     b.HasKey("DeptId");
 
-                    b.ToTable("Department", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            DeptId = 10,
-                            DateOfCreation = new DateTime(2025, 9, 18, 16, 17, 21, 249, DateTimeKind.Local).AddTicks(3697),
-                            Name = "HR"
-                        },
-                        new
-                        {
-                            DeptId = 20,
-                            DateOfCreation = new DateTime(2025, 9, 18, 16, 17, 21, 249, DateTimeKind.Local).AddTicks(3754),
-                            Name = "PR"
-                        },
-                        new
-                        {
-                            DeptId = 30,
-                            DateOfCreation = new DateTime(2025, 9, 18, 16, 17, 21, 249, DateTimeKind.Local).AddTicks(3756),
-                            Name = "Sales"
-                        });
+                    b.ToTable("Department");
                 });
 
             modelBuilder.Entity("Demo.Models.Employee", b =>
@@ -139,7 +122,7 @@ namespace Demo.Migrations
 
                     b.HasIndex("DepartmentID");
 
-                    b.ToTable("Employees", (string)null);
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("Demo.Models.Product", b =>
@@ -161,7 +144,7 @@ namespace Demo.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Demo.Models.Student", b =>
@@ -178,7 +161,7 @@ namespace Demo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Students", (string)null);
+                    b.ToTable("Students");
                 });
 
             modelBuilder.Entity("Demo.Models.StudentCourse", b =>
@@ -196,7 +179,7 @@ namespace Demo.Migrations
 
                     b.HasIndex("CourseID");
 
-                    b.ToTable("studentCourses", (string)null);
+                    b.ToTable("studentCourses");
                 });
 
             modelBuilder.Entity("Demo.Models.User", b =>
@@ -213,7 +196,7 @@ namespace Demo.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Demo.Models.UserProfile", b =>
@@ -236,7 +219,7 @@ namespace Demo.Migrations
                     b.HasIndex("userId")
                         .IsUnique();
 
-                    b.ToTable("UserProfiles", (string)null);
+                    b.ToTable("UserProfiles");
                 });
 
             modelBuilder.Entity("Demo.Models.Employee", b =>

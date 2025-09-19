@@ -38,6 +38,14 @@ namespace Demo.Configuration
                    .HasDefaultValueSql("GetDate()");
 
             builder.Ignore(x => x.Serial);
+
+            #region Data Seeding Method #1
+            //builder.HasData(
+            //    new Department { DeptId = 10, Name = "HR", DateOfCreation = DateTime.Now },
+            //    new Department { DeptId = 20, Name = "PR", DateOfCreation = DateTime.Now },
+            //    new Department { DeptId = 30, Name = "Sales", DateOfCreation = DateTime.Now }
+            //    ); 
+            #endregion
         }
     }
 }

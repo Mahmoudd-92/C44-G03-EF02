@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Demo.Models
 {
-    public class Product
+    public class Student
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        //[ForeignKey("Category")] //1:M    by Annotation
-        public int CategoryId { get; set; }
-        public virtual Category Category { get; set; }
+        //public ICollection<Course> Courses { get; set; }
+        public virtual ICollection<StudentCourse> studentCourses { get; set; }
     }
 }

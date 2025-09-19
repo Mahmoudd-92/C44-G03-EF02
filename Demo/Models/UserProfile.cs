@@ -13,7 +13,7 @@ namespace Demo.Models
         public string Bio { get; set; }
         //[ForeignKey("User")]        //FK by Data Annotation =>Takes the name of the navigational prop
         public int userId { get; set; }
-        public User User { get; set; }
+        public virtual User User { get; set; }
     }
 
 }

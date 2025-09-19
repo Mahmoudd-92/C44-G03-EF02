@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,7 +19,8 @@ namespace Demo.Contexts
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server =MAHMOUD\\SQL2022DEV ; database= CompanyDbG03; trusted_Connection= true; TrustServerCertificate= true; ");
+            optionsBuilder.UseSqlServer("Server =MAHMOUD\\SQL2022DEV ; database= CompanyDbG03; trusted_Connection= true; TrustServerCertificate= true; ")
+                .UseLazyLoadingProxies(false);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,6 +38,13 @@ namespace Demo.Contexts
                 .HasForeignKey(x => x.CategoryId); //not important can run with out it but firstly
                                                    //remove CategoryId prop from products.
 
+            //modelBuilder.Entity<Student>()
+            //    .HasMany(x => x.Courses)
+            //    .WithMany(x => x.Students);
+
+            modelBuilder.Entity<StudentCourse>()              //Setting a composite PK by Fluent API.
+                .HasKey(x => new { x.StudentID, x.CourseID });
+
             base.OnModelCreating(modelBuilder);
         }
 
@@ -45,6 +54,8 @@ namespace Demo.Contexts
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
-
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<StudentCourse> studentCourses { get; set; }
     }
 }

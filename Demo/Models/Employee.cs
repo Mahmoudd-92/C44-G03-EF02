@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,8 +24,7 @@ namespace Demo.Models
         [Length(5, 10)]
         public string? Name { get; set; } //nvarchar(max)
 
-        [DataType(DataType.Currency)]
-        [DefaultValue(5000)]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Salary { get; set; }
 
         [Range(18, 60)]
@@ -42,5 +42,8 @@ namespace Demo.Models
         public string password { get; set; }
 
         public string address { get; set; }
+
+        public int? DepartmentID { get; set; }
+        public virtual Department Department { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using Demo.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Demo.Migrations
 {
     [DbContext(typeof(CompanyDbContext))]
-    partial class CompanyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250918114326_EditEmployeeTable")]
+    partial class EditEmployeeTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,21 @@ namespace Demo.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("CourseStudent", b =>
+                {
+                    b.Property<int>("CoursesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CoursesId", "StudentsId");
+
+                    b.HasIndex("StudentsId");
+
+                    b.ToTable("CourseStudent");
+                });
 
             modelBuilder.Entity("Demo.Models.Category", b =>
                 {
@@ -36,7 +54,7 @@ namespace Demo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Demo.Models.Course", b =>
@@ -53,7 +71,7 @@ namespace Demo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Courses", (string)null);
+                    b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("Demo.Models.Department", b =>
@@ -79,27 +97,7 @@ namespace Demo.Migrations
 
                     b.HasKey("DeptId");
 
-                    b.ToTable("Department", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            DeptId = 10,
-                            DateOfCreation = new DateTime(2025, 9, 18, 16, 17, 21, 249, DateTimeKind.Local).AddTicks(3697),
-                            Name = "HR"
-                        },
-                        new
-                        {
-                            DeptId = 20,
-                            DateOfCreation = new DateTime(2025, 9, 18, 16, 17, 21, 249, DateTimeKind.Local).AddTicks(3754),
-                            Name = "PR"
-                        },
-                        new
-                        {
-                            DeptId = 30,
-                            DateOfCreation = new DateTime(2025, 9, 18, 16, 17, 21, 249, DateTimeKind.Local).AddTicks(3756),
-                            Name = "Sales"
-                        });
+                    b.ToTable("Department");
                 });
 
             modelBuilder.Entity("Demo.Models.Employee", b =>
@@ -111,9 +109,6 @@ namespace Demo.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Age")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DepartmentID")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -137,9 +132,7 @@ namespace Demo.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DepartmentID");
-
-                    b.ToTable("Employees", (string)null);
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("Demo.Models.Product", b =>
@@ -161,7 +154,7 @@ namespace Demo.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Demo.Models.Student", b =>
@@ -178,25 +171,7 @@ namespace Demo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Students", (string)null);
-                });
-
-            modelBuilder.Entity("Demo.Models.StudentCourse", b =>
-                {
-                    b.Property<int>("StudentID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CourseID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Grade")
-                        .HasColumnType("int");
-
-                    b.HasKey("StudentID", "CourseID");
-
-                    b.HasIndex("CourseID");
-
-                    b.ToTable("studentCourses", (string)null);
+                    b.ToTable("Students");
                 });
 
             modelBuilder.Entity("Demo.Models.User", b =>
@@ -213,7 +188,7 @@ namespace Demo.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Demo.Models.UserProfile", b =>
@@ -236,16 +211,22 @@ namespace Demo.Migrations
                     b.HasIndex("userId")
                         .IsUnique();
 
-                    b.ToTable("UserProfiles", (string)null);
+                    b.ToTable("UserProfiles");
                 });
 
-            modelBuilder.Entity("Demo.Models.Employee", b =>
+            modelBuilder.Entity("CourseStudent", b =>
                 {
-                    b.HasOne("Demo.Models.Department", "Department")
-                        .WithMany("Employees")
-                        .HasForeignKey("DepartmentID");
+                    b.HasOne("Demo.Models.Course", null)
+                        .WithMany()
+                        .HasForeignKey("CoursesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Department");
+                    b.HasOne("Demo.Models.Student", null)
+                        .WithMany()
+                        .HasForeignKey("StudentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Demo.Models.Product", b =>
@@ -257,25 +238,6 @@ namespace Demo.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("Demo.Models.StudentCourse", b =>
-                {
-                    b.HasOne("Demo.Models.Course", "Course")
-                        .WithMany("studentCourses")
-                        .HasForeignKey("CourseID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Demo.Models.Student", "Student")
-                        .WithMany("studentCourses")
-                        .HasForeignKey("StudentID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Course");
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("Demo.Models.UserProfile", b =>
@@ -292,21 +254,6 @@ namespace Demo.Migrations
             modelBuilder.Entity("Demo.Models.Category", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("Demo.Models.Course", b =>
-                {
-                    b.Navigation("studentCourses");
-                });
-
-            modelBuilder.Entity("Demo.Models.Department", b =>
-                {
-                    b.Navigation("Employees");
-                });
-
-            modelBuilder.Entity("Demo.Models.Student", b =>
-                {
-                    b.Navigation("studentCourses");
                 });
 
             modelBuilder.Entity("Demo.Models.User", b =>
