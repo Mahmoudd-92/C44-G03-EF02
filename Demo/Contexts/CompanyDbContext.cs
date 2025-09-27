@@ -20,7 +20,7 @@ namespace Demo.Contexts
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server =MAHMOUD\\SQL2022DEV ; database= CompanyDbG03; trusted_Connection= true; TrustServerCertificate= true; ")
-                .UseLazyLoadingProxies(false);
+                .UseLazyLoadingProxies();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

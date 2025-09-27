@@ -2,6 +2,8 @@
 using Demo.Data;
 using Demo.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Demo
 {
@@ -153,6 +155,8 @@ namespace Demo
 
             #endregion
 
+            #region Loading Types
+
             #region Introduction to Loading
             //var employee = Context.Employees.FirstOrDefault(x => x.Id == 11);
 
@@ -217,6 +221,8 @@ namespace Demo
             //}
             #endregion
 
+            #endregion
+
             #region Joins 
 
             #region Inner Join
@@ -249,7 +255,140 @@ namespace Demo
             //{
             //    Console.WriteLine($"{item.EmployeeName} => {item.DepartmentName}");
             //}
-            #endregion 
+            #endregion
+            #endregion
+
+            #region Group Join
+            #region Query Syntax
+            //var query = (from dept in Context.Department
+            //             join emp in Context.Employees
+            //             on dept.DeptId equals emp.DepartmentID into emp
+            //             select new
+            //             {
+            //                 Employees = emp,
+            //                 department = dept
+            //             }into groupCount
+            //             where groupCount.Employees.Count() > 1
+            //             select groupCount).ToList();
+
+            //foreach (var item in query)
+            //{
+            //    Console.WriteLine($"{item.department.DeptId} - {item.department.Name}");
+            //    foreach (var emp in item.Employees)
+            //    {
+            //        Console.WriteLine($"{emp.Id} - {emp.Name}");
+            //    }
+            //    Console.WriteLine("============================");
+            //}
+            #endregion
+
+            #region Fluent Syntax
+            //var query = Context.Department.GroupJoin(Context.Employees,
+            //                                         dept => dept.DeptId,
+            //                                         emp => emp.DepartmentID,
+            //                                         (dept, emp) => new
+            //                                         {
+            //                                             Employees = emp,
+            //                                             department = dept
+            //                                         }).ToList();
+            //foreach (var item in query)
+            //{
+            //    Console.WriteLine($"{item.department.DeptId} - {item.department.Name}");
+            //    foreach (var emp in item.Employees)
+            //    {
+            //        Console.WriteLine($"{emp.Id} - {emp.Name}");
+            //    }
+            //    Console.WriteLine("============================");
+            //}
+            #endregion
+            #endregion
+
+            #region Left Join
+            #region Query Syntax
+            //var query = (from dept in Context.Department
+            //             join emp in Context.Employees
+            //             on dept.DeptId equals emp.DepartmentID into emp
+            //             select new
+            //             {
+            //                 Employees = emp.DefaultIfEmpty(),
+            //                 department = dept
+            //             } into groups
+            //             from emp in groups.Employees
+            //             select new
+            //             {
+            //                 DepartmentID = groups.department.DeptId,
+            //                 DepartmentName = groups.department.Name,
+            //                 EmpName = emp != null ? emp.Name : "No Employee"
+            //             }).ToList();
+
+            //foreach (var item in query)
+            //{
+            //    Console.WriteLine($"{item.DepartmentID} - {item.DepartmentName} => {item.EmpName}");
+            //}
+            #endregion
+
+            #region Fluent Syntax -- Not Supported
+            //var query = Context.Department.LeftJoin(Context.Employees,
+            //                                         dept => dept.DeptId,
+            //                                         emp => emp.DepartmentID,
+            //                                         (dept, emp) => new
+            //                                         {
+            //                                             Employees = emp,
+            //                                             department = dept
+            //                                         }).ToList();
+            //foreach (var item in query)
+            //{
+            //    Console.WriteLine($"{item.department.DeptId} - {item.department.Name}");
+            //}
+            /////////////////////////////////////////////////////////////////////////////////////////////
+            //// We are basically using a group join but we want the result as one array so we use select many (Flatten the array)
+            //var query = Context.Department.GroupJoin(Context.Employees,
+            //                                         dept => dept.DeptId,
+            //                                         emp => emp.DepartmentID,
+            //                                         (dept, emp) => new
+            //                                         {
+            //                                             Employees = emp,
+            //                                             department = dept
+            //                                         }).SelectMany(x => x.Employees.DefaultIfEmpty(), (x,emp) => new
+            //                                         {
+            //                                             DepartmentID = x.department.DeptId,
+            //                                             DepartmentName = x.department.Name,
+            //                                             EmpName = emp != null ? emp.Name : "No Employee"
+            //                                         }).ToList();
+            //foreach (var item in query)
+            //{
+            //    Console.WriteLine($"{item.DepartmentID} - {item.DepartmentName} => {item.EmpName}");
+            //}
+            #endregion
+            #endregion
+
+            #region Cross Join
+            #region Query Syntax
+            //var query = from emp in Context.Employees
+            //            from dept in Context.Department
+            //            select new
+            //            {
+            //                EmployeeName = emp.Name,
+            //                DepartmentName = dept.Name
+            //            };
+            //foreach (var item in query)
+            //{
+            //    Console.WriteLine(item);
+            //}
+            #endregion
+
+            #region Fluent Syntax
+            //var query = Context.Employees.SelectMany(emp => Context.Department, (emp, dept) => new
+            //{
+            //    EmployeeName = emp.Name,
+            //    DepartmentName = dept.Name
+            //});
+
+            //foreach (var item in query)
+            //{
+            //    Console.WriteLine(item);
+            //}
+            #endregion
             #endregion
 
             #endregion
