@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "Demo\Demo.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assignment", "Assignment\Assignment.csproj", "{C74017E1-089C-4E18-885C-2BFC04DF946A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inheritance Mapping", "Inheritance Mapping\Inheritance Mapping.csproj", "{C6936C4B-DD32-4EC0-8AB6-110AC61A9765}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseFirst", "DatabaseFirst\DatabaseFirst.csproj", "{C07F867D-7550-4629-ADB9-BF4D11E84387}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{C74017E1-089C-4E18-885C-2BFC04DF946A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C74017E1-089C-4E18-885C-2BFC04DF946A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C74017E1-089C-4E18-885C-2BFC04DF946A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6936C4B-DD32-4EC0-8AB6-110AC61A9765}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6936C4B-DD32-4EC0-8AB6-110AC61A9765}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6936C4B-DD32-4EC0-8AB6-110AC61A9765}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6936C4B-DD32-4EC0-8AB6-110AC61A9765}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C07F867D-7550-4629-ADB9-BF4D11E84387}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C07F867D-7550-4629-ADB9-BF4D11E84387}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C07F867D-7550-4629-ADB9-BF4D11E84387}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C07F867D-7550-4629-ADB9-BF4D11E84387}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
